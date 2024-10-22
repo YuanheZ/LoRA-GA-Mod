@@ -5,6 +5,7 @@ dry_run: False
 wandb:
   project: "glue_new"
   name: null
+  entity: "yuanhezhang6-university-of-warwick"
 hydra:
   sweeper:
     params:
