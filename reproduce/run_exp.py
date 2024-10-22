@@ -339,7 +339,7 @@ def run_exp(cfg: DictConfig):
         name = "_".join([f"{k}={v}" for k, v in config.items()])
     cfg.wandb.project += "_" + cfg.dataset_name
     wandb.init(
-        entity="atcs_project",
+        entity="yuanhezhang6-university-of-warwick",
         project=cfg.wandb.project,
         name=name,
         config=config,
