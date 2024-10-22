@@ -16,8 +16,7 @@ from transformers import (
     TrainerState,
 )
 from transformers.trainer_utils import PredictionOutput
-from datasets import Dataset, load_dataset
-from evaluate import load_metric
+from datasets import Dataset, load_dataset, load_metric
 from torch.utils.data import DataLoader
 from transformers import AdamW, get_linear_schedule_with_warmup
 from lora_plus import LoraPlusTrainingArguments, LoraPlusTrainer
