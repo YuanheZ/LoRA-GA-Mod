@@ -166,14 +166,14 @@ def reinit_lora_modules(name, module, init_config, **kwargs):
         V = V.T
         # set direction
         if init_config.direction == "ArBr":
-            B = U[:, 0 : 2 * lora_r : 2]
-            A = V[1 : 2 * lora_r : 2, :]
+            B = U[:, :lora_r] @ torch.diag(torch.sqrt(S[:lora_r]))
+            A = torch.diag(torch.sqrt(S[:lora_r])) @ V[:lora_r, :]
         elif init_config.direction == "A2rBr":
-            B = U[:, :lora_r]
-            A = V[lora_r : 2 * lora_r, :]
+            B = U[:, :lora_r] @ torch.diag(torch.sqrt(S[:lora_r]))
+            A = torch.diag(torch.sqrt(S[:lora_r])) @ V[:lora_r, :]
         elif init_config.direction == "ArB2r":
-            B = U[:, lora_r : 2 * lora_r]
-            A = V[:lora_r, :]
+            B = U[:, :lora_r] @ torch.diag(torch.sqrt(S[:lora_r]))
+            A = torch.diag(torch.sqrt(S[:lora_r])) @ V[:lora_r, :]
         scaling_factor = module.scaling["default"]
         if init_config.scale == "gd":
             A = A / scaling_factor
