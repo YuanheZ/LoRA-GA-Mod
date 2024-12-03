@@ -3,11 +3,11 @@ defaults:
   - model: t5base
 dry_run: False
 wandb:
-  project: "glue_new"
+  project: "glue_comp"
   name: null
   entity: "yuanhezhang6-university-of-warwick"
 hydra:
   sweeper:
     params:
-      ++dataset_name: mnli
+      ++dataset_name: cola
       ++seed: 0
