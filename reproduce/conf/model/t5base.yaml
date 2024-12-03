@@ -1,6 +1,6 @@
 name: t5-base
 type: ConditionalGeneration
-epochs: 0.03
+epochs: 1
 per_device_batch_size: 32
 real_batch_size: 32
 bf16: False
