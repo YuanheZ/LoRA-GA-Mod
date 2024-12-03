@@ -165,12 +165,21 @@ def reinit_lora_modules(name, module, init_config, **kwargs):
         U, S, V = torch.svd_lowrank(grads.cuda().float(), q=4 * lora_r, niter=4)
         V = V.T
         # set direction
-        if init_config.direction == "TI-LoRA":
+        if init_config.direction == "OS-LoRA-Full":
             B = U[:, :lora_r] @ torch.diag(torch.sqrt(S[:lora_r]))
             A = torch.diag(torch.sqrt(S[:lora_r])) @ V[:lora_r, :]
         elif init_config.direction == "LoRA-GA":
             B = U[:, lora_r : 2 * lora_r]
             A = V[:lora_r, :]
+        elif init_config.direction == "OS-LoRA-A":
+            B = torch.zeros_like(U[:, lora_r : 2 * lora_r])
+            A = V[:lora_r, :] @ torch.diag(torch.sqrt(S[:lora_r]))
+        elif init_config.direction == "OS-LoRA-B":
+            B = U[:, :lora_r] @ torch.diag(torch.sqrt(S[:lora_r]))
+            A = torch.zeros_like(V[:lora_r, :])
+        elif init_config.direction == "OS-LoRA-AB":
+            B = U[:, :lora_r] @ torch.diag(torch.sqrt(S[:lora_r])) @ torch.diag(S[:lora_r])
+            A = V[:lora_r, :] @ torch.diag(torch.sqrt(S[:lora_r]))
         scaling_factor = module.scaling["default"]
         if init_config.scale == "gd":
             A = A / scaling_factor
